@@ -1,25 +1,21 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_ogin/service/storage_service.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../model/status.dart';
+import 'package:firebase_ogin/model/status.dart';
 
 class StatusService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  StorageService _storageService = StorageService();
-  String mediaUrl = '';
+  // StorageService _storageService = StorageService();
 
-  //status eklemek için
-  Future<Status> addStatus(String status, XFile pickedFile) async {
+  Future<Status> addStatus(String tarif, String image, String name) async {
     var ref = _firestore.collection("Status");
 
-    mediaUrl = await _storageService.uploadMedia(File(pickedFile.path));
+    image = "image boş";
 
-    var documentRef = await ref.add({'status': status, 'image': mediaUrl});
-
-    return Status(id: documentRef.id, status: status, image: mediaUrl);
+    var documentRef = await ref.add({
+      'tarif': tarif,
+      'image': image,
+      'name': name,
+    });
+    return Status(id: documentRef.id, tarif: tarif, image: image, name: name);
   }
 
   //status göstermek için
@@ -29,7 +25,7 @@ class StatusService {
     return ref;
   }
 
-  //status silmek için
+  // status silmek için
   Future<void> removeStatus(String docId) {
     var ref = _firestore.collection("Status").doc(docId).delete();
 

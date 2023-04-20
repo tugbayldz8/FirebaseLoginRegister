@@ -2,16 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Status {
   String id;
-  String status;
+  String tarif;
   String image;
+  String name;
 
-  Status({required this.id, required this.status, required this.image});
+  Status(
+      {required this.id,
+      required this.tarif,
+      required this.image,
+      required this.name});
 
   factory Status.fromSnapshot(DocumentSnapshot snapshot) {
     return Status(
       id: snapshot.id,
-      status: snapshot["status"],
+      tarif: snapshot["status"],
       image: snapshot["image"],
+      name: snapshot["name"],
     );
   }
 }
