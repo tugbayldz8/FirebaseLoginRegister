@@ -17,20 +17,22 @@ class _StatusListPageState extends State<StatusListPage> {
 
     return StreamBuilder<QuerySnapshot>(
       stream: _statusService.getStatus(),
-      builder: (context, snapshot) {
-        return !snapshot.hasData
+      builder: (context, snaphot) {
+        return !snaphot.hasData
             ? CircularProgressIndicator()
             : Scaffold(
+                appBar: AppBar(
+                  title: Text('Tarifler'),
+                ),
                 body: Column(
                   //mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       height: 500,
                       child: ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
+                          itemCount: snaphot.data!.docs.length,
                           itemBuilder: (context, index) {
-                            DocumentSnapshot mypost =
-                                snapshot.data!.docs[index];
+                            DocumentSnapshot mypost = snaphot.data!.docs[index];
 
                             //veri silmek için
                             Future<void> _showChoiseDialog(
@@ -112,6 +114,12 @@ class _StatusListPageState extends State<StatusListPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
+                                            Center(
+                                                child: CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImage(mypost['image']),
+                                              radius: size.height * 0.08,
+                                            )),
                                             Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,

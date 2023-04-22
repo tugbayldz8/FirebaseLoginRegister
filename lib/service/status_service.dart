@@ -1,21 +1,27 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ogin/model/status.dart';
+import 'package:firebase_ogin/service/storage_service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class StatusService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // StorageService _storageService = StorageService();
+  StorageService _storageService = StorageService();
+  String mediaUrl = '';
 
-  Future<Status> addStatus(String tarif, String image, String name) async {
+  Future<Status> addStatus(String tarif, XFile pickedFile, String name) async {
     var ref = _firestore.collection("Status");
 
-    image = "image boş";
+    mediaUrl = await _storageService.uploadMedia(File(pickedFile.path));
 
     var documentRef = await ref.add({
       'tarif': tarif,
-      'image': image,
+      'image': mediaUrl,
       'name': name,
     });
-    return Status(id: documentRef.id, tarif: tarif, image: image, name: name);
+    return Status(
+        id: documentRef.id, tarif: tarif, image: mediaUrl, name: name);
   }
 
   //status göstermek için
