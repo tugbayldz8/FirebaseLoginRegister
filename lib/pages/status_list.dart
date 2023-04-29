@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../service/notificationn.dart';
 import '../service/status_service.dart';
 
 class StatusListPage extends StatefulWidget {
@@ -11,6 +12,53 @@ class StatusListPage extends StatefulWidget {
 class _StatusListPageState extends State<StatusListPage> {
   StatusService _statusService = StatusService();
   ScrollController _scrollController = ScrollController();
+  final _service = FirebaseNotificationService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _service.connectNotgication();
+  }
+
+//   FirebaseMessaging messaging = FirebaseMessaging.instance;
+//
+// // Bir kaynak üzerinde bir öğe silindiğinde çağrılan işlev
+//   void deleteItem(String itemId) {
+//     // Veri tabanından öğe silme işlemi gerçekleştirilir
+//     FirebaseFirestore.instance.collection('items').doc(itemId).delete();
+//
+//     // Silme işleminden sonra push bildirimi göndermek için FCM kullanılır
+//     messaging.getToken().then((token) {
+//       print('Token: $token');
+//
+//       Map<String, dynamic> message = {
+//         'notification': {
+//           'title': 'Bir öğe silindi',
+//           'body': 'Bir öğe silindi.'
+//         },
+//         'token': token,
+//         'data': {
+//           'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+//           'screen': 'item_list'
+//         }
+//       };
+//
+//       // Push bildirimi gönderilir
+//       messaging.sendAll(
+//       <RemoteMessage>[
+//       RemoteMessage(
+//       notification: RemoteNotification(
+//       title: message['notification']['title'],
+//       body: message['notification']['body'],
+//       ),
+//       data: message['data'],
+//       to: message['to'],
+//           ),
+//         },
+//       );
+//     });
+//   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
